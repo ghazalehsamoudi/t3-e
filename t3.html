@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root">
+        <p>
+        </p>
+        <add-counter :number1="firstNum" :number2="secondNum" @zarb="zarbdar">
+            <p>hello</p>
+            <span>counter: {{firstNum}}</span>
+            <template v-slot:btn-text>اضافه</template>
+        </add-counter>
+        <add-counter :number1="firstNum" :number2="secondNum" @zarb="zarbdar">
+            <p>hello</p>
+            <span>counter: {{firstNum}}</span>
+            <template v-slot:btn-text>اضافه</template>
+        </add-counter>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        const app = Vue.createApp({
+            data: () => ({
+                firstNum: 5,
+                secondNum: 12
+            }),
+            methods: {
+                zarbdar(n,str) {
+                console.log(str,"=", this.firstNum * this.secondNum*n);
+                }
+            }
+        })
+        app.component('add-counter', {
+            template: `
+            <slot></slot>
+            <button @click="zarb">
+                zarb
+                <slot name="btn-text">
+                    
+                </slot>
+            </button>
+            `, 
+            methods: {
+                zarb() {
+                    return this.$emit('zarb',3,"sum")
+                }
+            },
+            props: ['number1', 'number2'],
+            data: () => ({
+                counter: 0
+            })
+        }) 
+        const vm = app.mount('#root')
+    </script>
+</body>
+
+</html>
